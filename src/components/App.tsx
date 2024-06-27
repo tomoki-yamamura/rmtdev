@@ -16,16 +16,20 @@ import Sidebar, { SideBarTop } from "./Sidebar";
 function App() {
   const [searchText, setSearchText] = useState("")
   const [jobItems, setJobItems] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (!setSearchText) return;
     const fetchData = async () => {
+      setIsLoading(true)
       const response = await fetch(`https://bytegrad.com/course-assets/projects/rmtdev/api/data?search=${searchText}`);
       const data = await response.json()
+      setIsLoading(false)
       setJobItems(data.jobItems)
     }
     fetchData();
   }, [searchText])
+
   return (
     <>
       <Background />
@@ -47,7 +51,7 @@ function App() {
             <Sorting />
           </SideBarTop>
 
-          <JobList jobItems={jobItems} />
+          <JobList isLoading={isLoading} jobItems={jobItems} />
           <Pagination />
 
         </Sidebar>

@@ -13,11 +13,11 @@ type JobItemsApiResponse = {
 async function fetchJobItems(searchText: string): Promise<JobItemsApiResponse> {
   const response = await fetch(`${BASE_API_URL}?search=${searchText}`);
 
-  if(!response.ok) {
-    const errorData = await response.json()
-    throw new Error(errorData.description)
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.description);
   }
-  
+
   const data = await response.json();
   return data;
 }
@@ -31,7 +31,7 @@ export function useJobItems(searchText: string) {
       retry: false,
       enabled: Boolean(searchText),
       onError: (error) => {
-        handleError(error)
+        handleError(error);
       },
     }
   );
@@ -41,25 +41,6 @@ export function useJobItems(searchText: string) {
     isLoading: isInitialLoading,
   } as const;
 }
-// export function useJobItems(searchText: string) {
-//   const [jobItems, setJobItems] = useState<JobItem[]>([]);
-//   const [isLoading, setIsLoading] = useState(false);
-
-//   useEffect(() => {
-//     if (!searchText) return;
-//     const fetchData = async () => {
-//       setIsLoading(true);
-//       const response = await fetch(`${BASE_API_URL}?search=${searchText}`);
-//       const data = await response.json();
-//       setIsLoading(false);
-//       setJobItems(data.jobItems);
-//     };
-//     fetchData();
-//   }, [searchText]);
-
-//   return [jobItems, isLoading ] as const;
-// }
-
 export function useActivId() {
   const [activeId, setActiveId] = useState<number | null>(null);
 
@@ -91,11 +72,11 @@ async function fetchJobItem(
 ): Promise<JobItemApiResponse> {
   const response = await fetch(`${BASE_API_URL}/${activeId}`);
 
-  if(!response.ok) {
-    const errorData = await response.json()
-    throw new Error(errorData.description)
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.description);
   }
-  
+
   const data = await response.json();
   return data;
 }
@@ -110,7 +91,7 @@ export function useJobItem(activeId: number | null) {
       retry: false,
       enabled: Boolean(activeId),
       onError: (error) => {
-        handleError(error)
+        handleError(error);
       },
     }
   );
@@ -119,24 +100,6 @@ export function useJobItem(activeId: number | null) {
   const isLoading = isInitialLoading;
   return { jobItem, isLoading } as const;
 }
-// export function useJobItem(activeId: number | null) {
-//   const [jobItem, setJobItem] = useState<JobItemExpanded | null>(null);
-//   const [isLoading, setIsLoading] = useState(false);
-
-//   useEffect(() => {
-//     if (!activeId) return;
-//     const fetchDetailItem = async () => {
-//       setIsLoading(true);
-//       const response = await fetch(`${BASE_API_URL}/${activeId}`);
-//       const data = await response.json();
-//       setIsLoading(false);
-//       setJobItem(data.jobItem);
-//     };
-//     fetchDetailItem();
-//   }, [activeId]);
-
-//   return [jobItem, isLoading] as const;
-// }
 
 export function useDebounce<T>(searchText: T, delay = 500): T {
   const [debouncedSearchText, setDebouncedSearchText] = useState(searchText);
@@ -150,4 +113,19 @@ export function useDebounce<T>(searchText: T, delay = 500): T {
   }, [searchText, delay]);
 
   return debouncedSearchText;
+}
+
+export function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, React.Dispatch<React.SetStateAction<T>>] {
+  const [value, setValue] = useState<T>(() =>
+    JSON.parse(localStorage.getItem(key) || JSON.stringify(initialValue))
+  );
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [value, key]);
+
+  return [value, setValue] as const;
 }

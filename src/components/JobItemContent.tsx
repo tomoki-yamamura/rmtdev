@@ -4,7 +4,7 @@ import { useActivId, useJobItem } from "./lib/hooks";
 
 export default function JobItemContent() {
   const activeId = useActivId();
-  const [jobItem, isLoading] = useJobItem(activeId)
+  const { jobItem, isLoading } = useJobItem(activeId)
 
   if (isLoading) {
     <LoadingJobContent />
@@ -70,8 +70,8 @@ export default function JobItemContent() {
               </p>
             </div>
             <ul className="qualifications__list">
-              {jobItem.qualifications.map((qualification) => (
-                <li key={qualification} className="qualifications__item">{qualification}</li>
+              {jobItem.qualifications.map((qualification, index) => (
+                <li key={index} className="qualifications__item">{qualification}</li>
               ))}
             </ul>
           </section>
@@ -84,8 +84,8 @@ export default function JobItemContent() {
               </p>
             </div>
             <ul className="reviews__list">
-              {jobItem.reviews.map((review) => (
-                <li key={review} className="reviews__item">{review}</li>
+              {jobItem.reviews.map((review, index) => (
+                <li key={index} className="reviews__item">{review}</li>
               ))}
             </ul>
           </section>

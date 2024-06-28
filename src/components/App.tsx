@@ -12,13 +12,12 @@ import ResultsCount from "./ResultsCount";
 import SearchForm from "./SearchForm";
 import Sidebar, { SideBarTop } from "./Sidebar";
 import Sorting from "./SortingControls";
-import { useActivId, useJobItem, useJobItems } from "./lib/hooks";
+import { useJobItems } from "./lib/hooks";
 
 function App() {
   const [searchText, setSearchText] = useState("")
   const [jobItems, isLoading] = useJobItems(searchText);
-  const activeId = useActivId();
-  const jobItem = useJobItem(activeId)
+
 
   return (
     <>
@@ -45,7 +44,7 @@ function App() {
           <Pagination />
 
         </Sidebar>
-        <JobItemContent jobItem={jobItem} />
+        <JobItemContent />
       </Container>
 
       <Footer />

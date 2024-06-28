@@ -25,6 +25,7 @@ function App() {
   const totalNumberOfResuts = jobItems?.length || 0;
   const totalNumberOfPages = totalNumberOfResuts / 7;
   const [sortBy, setSortBy] = useState<sortBy>("relevant")
+  
   const jobItemsSorted =
     [...(jobItems || [])].sort((a, b) => {
       if (sortBy === "relevant") {
@@ -38,6 +39,7 @@ function App() {
       currentPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE,
       currentPage * RESULTS_PER_PAGE
     ) || [];
+
 
 
   const handleChangePage = (direction: PageDirection) => {

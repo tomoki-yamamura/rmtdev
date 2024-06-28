@@ -4,9 +4,9 @@ export type JobItem = {
   title: string;
   company: string;
   date: string;
-  relevanceSource: number;
-  daysAgo: number
-}
+  relevanceScore: number;
+  daysAgo: number;
+};
 
 export type JobItemExpanded = JobItem & {
   description: string;
@@ -17,4 +17,6 @@ export type JobItemExpanded = JobItem & {
   salary: string;
   coverImgURL: string;
   companyURL: string;
-}
+};
+
+export type sortBy = "relevant" | "recent";

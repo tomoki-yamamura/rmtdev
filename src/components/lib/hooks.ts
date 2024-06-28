@@ -22,7 +22,7 @@ export function useJobItems(searchText: string) {
     fetchData();
   }, [searchText]);
 
-  return [jobItemsSliced, isLoading] as const;
+  return [jobItemsSliced, isLoading, jobItems.length] as const;
 }
 
 export function useActivId() {

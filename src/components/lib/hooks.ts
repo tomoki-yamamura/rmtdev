@@ -66,3 +66,17 @@ export function useJobItem(activeId: number | null) {
 
   return [jobItem, isLoading] as const
 }
+
+export function useDebounce(searchText: string) {
+  const [debouncedSearchText, setDebouncedSearchText] = useState(searchText)
+
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      setDebouncedSearchText(searchText)
+    }, 1000);
+
+    return () => clearTimeout(timeId)
+  })
+
+  return debouncedSearchText
+}

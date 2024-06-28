@@ -12,12 +12,12 @@ import ResultsCount from "./ResultsCount";
 import SearchForm from "./SearchForm";
 import Sidebar, { SideBarTop } from "./Sidebar";
 import Sorting from "./SortingControls";
-import { useJobItems } from "./lib/hooks";
+import { useDebounce, useJobItems } from "./lib/hooks";
 
 function App() {
   const [searchText, setSearchText] = useState("")
-  const [jobItems, isLoading, totalNumberOfResuts] = useJobItems(searchText);
-
+  const debouncedSearchText = useDebounce(searchText);
+  const [jobItems, isLoading, totalNumberOfResuts] = useJobItems(debouncedSearchText);
 
   return (
     <>

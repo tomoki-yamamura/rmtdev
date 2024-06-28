@@ -7,13 +7,7 @@ export default function JobItemContent() {
   const [jobItem, isLoading] = useJobItem(activeId)
 
   if (isLoading) {
-    return (
-      <section className="job-details">
-        <div>
-          <Spinner />
-        </div>
-      </section>
-    )
+    <LoadingJobContent />
   }
 
   if (!jobItem) return <EmptyJobContent />
@@ -107,6 +101,16 @@ export default function JobItemContent() {
       </div>
     </section>
   );
+}
+
+function LoadingJobContent() {
+  return (
+    <section className="job-details">
+      <div>
+        <Spinner />
+      </div>
+    </section>
+  )
 }
 
 function EmptyJobContent() {

@@ -20,3 +20,4 @@ export type JobItemExpanded = JobItem & {
 };
 
 export type sortBy = "relevant" | "recent";
+export type PageDirection = "next" | "previous"

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { BookmarksContext } from "../context/BookmarksContextProvider";
 import { BASE_API_URL } from "./constants";
@@ -22,7 +22,7 @@ async function fetchJobItems(searchText: string): Promise<JobItemsApiResponse> {
   const data = await response.json();
   return data;
 }
-export function useJobItems(searchText: string) {
+export function useSarchQuery(searchText: string) {
   const { data, isInitialLoading } = useQuery(
     ["job-items", searchText],
     () => fetchJobItems(searchText),
@@ -139,4 +139,21 @@ export function useBookmarksContext() {
     )
   }
   return context
+}
+
+export function useJobItems(ids: number[]) {
+  const results = useQueries({
+    queries: ids.map(id => ({
+      queryKey: ['job-item', id],
+      queryFn: () => fetchJobItem(id),
+      staleTime: 1000 * 60 * 60,
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: Boolean(id),
+      onError: handleError,
+    }))
+  })
+
+  const jobItems = results.map(result => result.data?.jobItem)
+  return jobItems
 }
